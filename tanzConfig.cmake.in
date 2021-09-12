@@ -1,0 +1,11 @@
+include( CMakeFindDependencyMacro )
+
+set( TANZ_ENABLE_EIGEN @TANZ_ENABLE_EIGEN@ )
+
+find_dependency( Threads REQUIRED )
+
+if( TANZ_ENABLE_EIGEN )
+  find_dependency( Eigen3 CONFIG REQUIRED )
+endif()
+
+include( ${CMAKE_CURRENT_LIST_DIR}/tanzTargets.cmake )

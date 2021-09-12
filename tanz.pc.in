@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+includedir=${prefix}/include/
+libdir=${prefix}/lib/
+
+Name: tanz
+Description: Some simple, ugly, half-baked C++ stuff
+Version: 0.0.0
+Cflags: -I${includedir}/ -pthread
+Libs: -L${libdir}/${lib_prefix}/ -ltanz -pthread
+

@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+includedir=${prefix}/include/
+libdir=${prefix}/lib/
+
+Name: tanz-eigen
+Description: Some simple, ugly, half-baked C++ stuff using Eigen3
+Version: 0.0.0
+Cflags: -I${includedir}/
+Libs: -L${libdir}/${lib_prefix}/ -ltanz-eigen
+Requires.private: tanz eigen3
