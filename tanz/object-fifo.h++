@@ -141,7 +141,7 @@ public:
     read_timeout( std::chrono::time_point< Clock, Duration > const &time_max )
     {
         lock_t lock( mtx );
-        
+
     try_with_mutex_still_locked:
 
         if ( queue.empty() ) {
@@ -216,7 +216,7 @@ struct fifo_guard
     fifo_guard()
     {
     }
-    
+
     fifo_guard( fifo_ptr fifo_ )
         : fifo( fifo_ )
     {
@@ -259,7 +259,7 @@ struct fifo_guard
     fifo_guard & operator = (fifo_guard const & ) = delete;
     fifo_guard & operator = (fifo_guard && g2 )
     {
-        adopt( g2 );
+        adopt( std::move( g2 ));
     }
 
     void participate( fifo_guard const & b )
@@ -267,7 +267,7 @@ struct fifo_guard
         close();
         fifo = b.fifo;
     }
-    
+
     ~fifo_guard()
     {
         close();
@@ -281,15 +281,13 @@ struct fifo_guard_reading {
     using ptr_type = ::std::shared_ptr< fifo_type >;
 
     ptr_type fifo; /* think before you touch this! */
-    
+
     fifo_guard_reading( ptr_type const &ptr )
         : fifo( ptr )
     {
     }
 
-    fifo_guard_reading()
-    {
-    }
+    fifo_guard_reading() = default;
 
     ~fifo_guard_reading()
     {
@@ -328,7 +326,7 @@ struct fifo_guard_reading {
     {
         return fifo->read_blockingly();
     }
-          
+
     bool is_closed()
     {
         return fifo->closed();
@@ -353,7 +351,7 @@ struct fifo_guard_writing {
     using ptr_type = ::std::shared_ptr< fifo_type >;
 
     ptr_type fifo; /* think before you touch this! */
-    
+
     fifo_guard_writing( ptr_type const &ptr )
         : fifo( ptr )
     {
@@ -366,7 +364,7 @@ struct fifo_guard_writing {
     {
         close();
     }
-    
+
     fifo_guard_writing( fifo_guard_writing const & ) = delete;
     fifo_guard_writing& operator = (fifo_guard_writing const &) = delete;
 
@@ -377,7 +375,7 @@ struct fifo_guard_writing {
         fifo = ::std::move( b.fifo );
         return *this;
     }
-    
+
     void close( )
     {
         if( fifo ) {
