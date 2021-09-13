@@ -252,6 +252,10 @@ struct fifo_guard
         fifo.swap( b.fifo );
     }
 
+    operator bool () const {
+        return not not fifo;
+    }
+
     fifo_guard & operator = (fifo_guard const & ) = delete;
     fifo_guard & operator = (fifo_guard && g2 )
     {
@@ -303,12 +307,16 @@ struct fifo_guard_reading {
         fifo = ::std::move( b.fifo );
     }
 
+    operator bool () const {
+        return not not fifo;
+    }
+
     fifo_guard< T >
     make_guard()
     {
         return fifo_guard< T >( fifo );
     }
-    
+
     void close( )
     {
         if( fifo ) {
@@ -392,7 +400,11 @@ struct fifo_guard_writing {
     {
         fifo->write_blockingly( x );
     }
-          
+
+    operator bool () const {
+        return not not fifo;
+    }
+
     bool closed() const
     {
         return fifo->closed();
