@@ -274,6 +274,8 @@ struct fifo_guard
     }
 };
 
+template< typename T > struct fifo_guard_writing;
+
 template< typename T >
 struct fifo_guard_reading {
     using fifo_type = object_fifo< T >;
@@ -299,6 +301,7 @@ struct fifo_guard_reading {
     fifo_guard_reading& operator = (fifo_guard_reading const &) = delete;
 
     fifo_guard_reading( fifo_guard_reading && b ) = default;
+
     fifo_guard_reading & operator = ( fifo_guard_reading && b )
     {
         close();
@@ -313,6 +316,12 @@ struct fifo_guard_reading {
     make_guard()
     {
         return fifo_guard< T >( fifo );
+    }
+
+    fifo_guard_writing< T >
+    make_guard_writing()
+    {
+        return fifo_guard_writing< T >( fifo );
     }
 
     void close( )
@@ -387,6 +396,12 @@ struct fifo_guard_writing {
     make_guard()
     {
         return fifo_guard< T >( fifo );
+    }
+
+    fifo_guard_reading< T >
+    make_guard_reading()
+    {
+        return fifo_guard_reading< T >( fifo );
     }
 
     void write_overwrite( value_type const& x )
