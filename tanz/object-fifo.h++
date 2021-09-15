@@ -43,6 +43,7 @@ private:
     bool  marked_as_closed;
     size_t        max_size;
     mutex_t       mtx;
+    size_t        history_count = 0;
     std::deque<T> queue;
     condition_variable_t input_state_change;
 
@@ -92,6 +93,7 @@ public:
             throw fifo_is_closed();
         }
         reserve_space(); // cannot fail
+        history_count = history_count + 1;
         queue.push_back( x );
 
         input_state_change.notify_all();
@@ -110,9 +112,26 @@ public:
             input_state_change.wait( lock );
             goto try_with_mutex_still_locked;
         } else {
+            history_count = history_count + 1;
             queue.push_back( x );
             input_state_change.notify_all();
         }
+    }
+
+    std::tuple< size_t, size_t, bool >
+    queue_state()
+    /* Returns the state of the queue, a triple
+       of the next elements (total) index, the size of elements
+       contained and the info wheter it is closed or not.
+
+       This operation is not that useful, but can be used for
+       things like progress bars, where the state changes are
+       monitored in a loosely coupled manner. */
+    {
+        lock_t lock( mtx );
+        return { history_count - queue.size(),
+                 queue.size(),
+                 marked_as_closed };
     }
 
     value_type read_blockingly( )
