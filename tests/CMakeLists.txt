@@ -6,7 +6,6 @@ if( TANZ_ENABLE_EIGEN )
     check-binary-serialisation-eigen.c++
     check-opengl-transforms.c++
     check-homography.c++
-    check-time-measurement.c++
     )
   set( eigen_libs
     eigen )
@@ -19,6 +18,7 @@ add_executable(
   check-hash-combiner.c++
   check-union-find.c++
   check-object-fifo.c++
+  check-time-measurement.c++
   ${eigen_files}
   )
 

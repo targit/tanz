@@ -3,8 +3,6 @@
 #include <system_error>
 #include <tanz/time-measurement.h++>
 
-#include <iostream>
-
 namespace tz {
 
 time_marker_t::time_marker_t()
