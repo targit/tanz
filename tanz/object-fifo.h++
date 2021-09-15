@@ -279,6 +279,7 @@ struct fifo_guard
     fifo_guard & operator = (fifo_guard && g2 )
     {
         adopt( std::move( g2 ));
+        return *this;
     }
 
     void participate( fifo_guard const & b )
@@ -324,7 +325,9 @@ struct fifo_guard_reading {
     fifo_guard_reading & operator = ( fifo_guard_reading && b )
     {
         close();
-        fifo = ::std::move( b.fifo );
+        fifo.reset();
+        fifo.swap( b.fifo );
+        return *this;
     }
 
     operator bool () const {
