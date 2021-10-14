@@ -25,13 +25,15 @@ install(
 
 install(
   FILES
-  complex.h++
-  union-find.h++
-  sexpr-dumper.h++
   binary-serialisation.h++
-  time-measurement.h++
+  complex.h++
+  hash-combiner.h++
   object-fifo.h++
   propagation-nodes.h++
+  sexpr-dumper.h++
+  time-measurement.h++
+  union-find.h++
+
   DESTINATION
   include/tanz/
   )
@@ -45,15 +47,16 @@ if( TANZ_ENABLE_EIGEN )
     STATIC
     binary-serialisation-eigen.c++
     homography.c++
+    conics.c++
     opengl-transforms.c++)
 
   set_target_properties(
     eigen
     PROPERTIES
     OUTPUT_NAME tanz-eigen )
-  
+
   add_library( tanz::eigen ALIAS eigen )
-  
+
   target_link_libraries(
     eigen
     tanz
@@ -72,8 +75,9 @@ if( TANZ_ENABLE_EIGEN )
 
   install(
     FILES
-    dsp.h++
     binary-serialisation-eigen.h++
+    conics.h++
+    dsp.h++
     opengl-transforms.h++
     DESTINATION
     include/tanz/ )

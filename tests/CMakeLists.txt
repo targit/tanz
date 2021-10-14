@@ -6,6 +6,7 @@ if( TANZ_ENABLE_EIGEN )
     check-binary-serialisation-eigen.c++
     check-opengl-transforms.c++
     check-homography.c++
+    check-conics.c++
     )
   set( eigen_libs
     eigen )
