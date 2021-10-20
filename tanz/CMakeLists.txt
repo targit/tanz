@@ -78,6 +78,7 @@ if( TANZ_ENABLE_EIGEN )
     binary-serialisation-eigen.h++
     conics.h++
     dsp.h++
+    homography.h++
     opengl-transforms.h++
     DESTINATION
     include/tanz/ )
