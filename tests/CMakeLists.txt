@@ -20,6 +20,7 @@ add_executable(
   check-union-find.c++
   check-object-fifo.c++
   check-time-measurement.c++
+  check-optional-queued-promise.c++
   ${eigen_files}
   )
 
