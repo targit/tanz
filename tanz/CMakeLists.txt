@@ -29,6 +29,7 @@ install(
   complex.h++
   hash-combiner.h++
   object-fifo.h++
+  optional-queued-promise.h++
   propagation-nodes.h++
   sexpr-dumper.h++
   time-measurement.h++

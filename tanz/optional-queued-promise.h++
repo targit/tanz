@@ -16,9 +16,9 @@
 #endif
 
 namespace tz {
-template< typename T >
 
-struct optional_queued_promise_t {
+template< typename T >
+struct optional_threaded_t {
     enum state_t {
         UNSET,
         PENDING,
@@ -82,7 +82,7 @@ struct optional_queued_promise_t {
     }
 
     template <typename F>
-    optional_queued_promise_t &
+    optional_threaded_t &
     operator = ( F const & f )
     /* As always: After setting a 'global' update needs to be done */
     {
@@ -99,7 +99,7 @@ struct optional_queued_promise_t {
     }
 
     template <typename F>
-    optional_queued_promise_t &
+    optional_threaded_t &
     operator = ( F && f )
     /* As always: After setting a 'global' update needs to be done */
     {

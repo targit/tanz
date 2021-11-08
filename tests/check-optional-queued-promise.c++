@@ -1,12 +1,12 @@
 #include <chrono>
 #include <gtest/gtest.h>
-#include <tanz/optional_queued_promise.h++>
+#include <tanz/optional-queued-promise.h++>
 #include <string>
 #include <thread>
 
 TEST( optional_queued_promise, one_run )
 {
-    using p_t = tz::optional_queued_promise_t< std::string >;
+    using p_t = tz::optional_threaded_t< std::string >;
     p_t oqp;
 
     EXPECT_EQ( oqp.state(), p_t::UNSET );
@@ -30,7 +30,7 @@ TEST( optional_queued_promise, one_run )
 
 TEST( optional_queued_promise, queued_run )
 {
-    using p_t = tz::optional_queued_promise_t< std::string >;
+    using p_t = tz::optional_threaded_t< std::string >;
     p_t oqp;
 
     EXPECT_EQ( oqp.state(), p_t::UNSET );
