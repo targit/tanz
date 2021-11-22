@@ -9,7 +9,7 @@
 
 namespace tz {
 
-Eigen::Affine2d
+Eigen::Matrix3d
 compute_homography_2d( std::vector< Eigen::Vector2d > const & left_observations,
                        std::vector< Eigen::Vector2d > const & right_observations );
 
