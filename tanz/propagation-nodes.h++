@@ -1,4 +1,4 @@
-/* Tara Lorenz (c) 2021, License: GPLv3 or Apache License 2.0 */
+/* Tara Lorenz (c) 2021, License: AGPLv3 or Apache License 2.0 */
 #pragma once
 #ifndef FILE_609816DD_12F6839E956CDCE1_INCLUDED
 #define FILE_609816DD_12F6839E956CDCE1_INCLUDED

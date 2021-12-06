@@ -43,10 +43,7 @@ TEST( optional_queued_promise, queued_run )
             return std::string("abc");
         };
     EXPECT_EQ( oqp.state(), p_t::PENDING );
-    oqp.update();
-    EXPECT_NE( oqp.state(), p_t::SET );
-    oqp.update();
-    EXPECT_NE( oqp.state(), p_t::SET );
+    EXPECT_FALSE( bool(oqp)); // calls update() implicitly */
     oqp =
         []()
         {
@@ -54,11 +51,25 @@ TEST( optional_queued_promise, queued_run )
             return std::string("xyz");
         };
     oqp =
+        []()
+        {
+            std::this_thread::sleep_for( std::chrono::milliseconds( 6 ));
+            return std::optional< std::string > { "xyz" };
+        };
+    oqp.update();
+    oqp = {};
+    oqp =
+        []()
+        {
+            std::this_thread::sleep_for( std::chrono::milliseconds( 6 ));
+            return std::string("xyz");
+        };
+    oqp =
         std::move(
         []()
         {
             std::this_thread::sleep_for( std::chrono::milliseconds( 1 ));
-            return std::string("def");
+            return std::optional< std::string >{ "def" };
         });
     oqp.update();
     (*(oqp.pending)).wait();
