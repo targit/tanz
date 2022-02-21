@@ -148,7 +148,7 @@ public:
                 goto try_with_mutex_still_locked;
             }
         } else {
-            value_type x(queue.front());
+            value_type x( std::move( queue.front()));
             queue.pop_front();
             input_state_change.notify_all();
             return x;
@@ -179,7 +179,7 @@ public:
                 }
             }
         } else {
-            value_type x(queue.front());
+            value_type x( std::move( queue.front()));
             queue.pop_front();
             input_state_change.notify_all();
             return x;
@@ -298,6 +298,7 @@ template< typename T > struct fifo_guard_writing;
 
 template< typename T >
 struct fifo_guard_reading {
+    using guard_type = fifo_guard_reading< T >;
     using fifo_type = object_fifo< T >;
     using value_type = typename fifo_type::value_type;
     using ptr_type = ::std::shared_ptr< fifo_type >;
@@ -356,6 +357,12 @@ struct fifo_guard_reading {
     value_type read_blockingly( )
     {
         return fifo->read_blockingly();
+    }
+
+    std::optional< value_type >
+    read_timeout( double span )
+    {
+        return fifo->read_timeout( span );
     }
 
     bool is_closed()
