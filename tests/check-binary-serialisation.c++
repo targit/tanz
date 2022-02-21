@@ -39,7 +39,7 @@ TEST( serialisation, primitive_roundtrips )
 
         ttype x_out={1,2,3,4,-1,-2,-3,-4, 0.23, 0.532443 };
         ttype x_in;
-        ser << x_out;        
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( std::get< 0 >( x_out ), std::get< 0 >( x_in ) );
@@ -66,7 +66,7 @@ TEST( serialisation, array )
 
         ttype x_out;
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out, x_in );
@@ -79,7 +79,7 @@ TEST( serialisation, array )
 
         ttype x_out = { 23.0 };
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out, x_in );
@@ -93,7 +93,7 @@ TEST( serialisation, array )
 
         ttype x_out = { 1, 2, 3, 4, 5, 6, 7, 8 };
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out, x_in );
@@ -118,7 +118,7 @@ TEST( serialisation, complex )
 
         ttype x_out( 0, 1 );
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out.real(), x_in.real() );
@@ -133,7 +133,7 @@ TEST( serialisation, complex )
 
         ttype x_out( 0, 1 );
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out.real(), x_in.real() );
@@ -152,7 +152,7 @@ TEST( serialisation, map )
 
         ttype x_out = {{0.0, 1},{2.0,3}};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out.size(), x_in.size() );
@@ -170,7 +170,7 @@ TEST( serialisation, optional )
         using ttype = std::optional< int >;
         ttype x_out = {};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
         EXPECT_EQ( str.str().size(), sizeof( uint8_t ));
         EXPECT_EQ( x_out, x_in );
@@ -182,7 +182,7 @@ TEST( serialisation, optional )
         using ttype = std::optional< int >; // std::variant< std::monostate, int >
         ttype x_out = 1;
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
         EXPECT_EQ( str.str().size(), sizeof( uint8_t ) + sizeof( int ));
         EXPECT_EQ( x_out, x_in );
@@ -194,7 +194,7 @@ TEST( serialisation, optional )
         using ttype = std::optional< std::variant< std::monostate, int > >;
         ttype x_out = {};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
         EXPECT_EQ( str.str().size(), sizeof( uint8_t ));
         EXPECT_EQ( x_out, x_in );
@@ -206,7 +206,7 @@ TEST( serialisation, optional )
         using ttype = std::optional< std::variant< std::monostate, int > >;
         ttype x_out = {{ }};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
         EXPECT_EQ( str.str().size(), sizeof( uint8_t ) + sizeof( uint64_t ));
         EXPECT_EQ( x_out, x_in );
@@ -218,7 +218,7 @@ TEST( serialisation, optional )
         using ttype = std::optional< std::variant< std::monostate, int > >;
         ttype x_out = { { 1 }};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
         EXPECT_EQ( str.str().size(), sizeof( uint8_t ) + sizeof( uint64_t ) + sizeof( int ));
         EXPECT_EQ( x_out, x_in );
@@ -235,7 +235,7 @@ TEST( serialisation, pair )
 
         ttype x_out = {-1, -2};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out, x_in );
@@ -247,7 +247,7 @@ TEST( serialisation, variant )
     {
         std::stringstream str;
         tz::serialiser_t ser{ &str };
-        
+
         auto a = std::variant< std::monostate, float >();
         ser << a;
         EXPECT_EQ( str.str().size(), sizeof( uint64_t ));
@@ -255,7 +255,7 @@ TEST( serialisation, variant )
     {
         std::stringstream str;
         tz::serialiser_t ser{ &str };
-        
+
         auto a = std::variant< std::monostate, float >();
         a = 34.0f;
         ser << a;
@@ -265,13 +265,13 @@ TEST( serialisation, variant )
         std::stringstream str;
         tz::serialiser_t ser{ &str };
         tz::deserialiser_t deser{ &str };
-        
+
         auto a = std::variant< std::monostate, float >();
         std::variant< std::monostate, float > b;
         ser << a;
-        
+
         deser >> b;
-        
+
         EXPECT_EQ( str.str().size(), sizeof( uint64_t ));
         EXPECT_EQ( b.index(), 0 );
     }
@@ -279,14 +279,14 @@ TEST( serialisation, variant )
         std::stringstream str;
         tz::serialiser_t ser{ &str };
         tz::deserialiser_t deser{ &str };
-        
+
         auto a = std::variant< std::monostate, float >();
         std::variant< std::monostate, float > b;
         a = 34.0f;
         ser << a;
-        
+
         deser >> b;
-        
+
         EXPECT_EQ( str.str().size(), sizeof( uint64_t ) + sizeof( float ));
         EXPECT_EQ( b.index(), 1 );
         EXPECT_EQ( std::get< 1 >( b ), 34.0f );
@@ -303,7 +303,7 @@ TEST( serialisation, vector )
 
         ttype x_out = {{0, 1},{2,3},{}};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out.size(), x_in.size() );
@@ -327,7 +327,7 @@ TEST( serialisation, unordered_map )
 
         ttype x_out = {{0.0, 1},{2.0,3}};
         ttype x_in;
-        ser << x_out; 
+        ser << x_out;
         deser >> x_in;
 
         EXPECT_EQ( x_out.size(), x_in.size() );
@@ -342,16 +342,16 @@ TEST( serialisation, start_and_stop )
         std::stringstream str;
 
         using ttype = std::unordered_map< double, int >;
-        
+
         ttype x1_out = {{0.0, 1},{2.0,3}};
         double x2_out = 1.234;
 
         ttype x1_in;
         double x2_in;
-        
+
         str << tz::serialiser_t::start() << x1_out << x2_out << tz::serialiser_t::end() << std::flush;
         str >> tz::deserialiser_t::start() >> x1_in >> x2_in >> tz::deserialiser_t::end();
-        
+
         EXPECT_EQ( x1_out.size(), x1_in.size() );
         EXPECT_EQ( x1_out, x1_in );
         EXPECT_EQ( x1_out[2.0], 3 );
